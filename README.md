@@ -4,6 +4,8 @@ To notify the end of the time block.
 
 ## Installation
 
+    $ brew install terminal-notifier
+
     $ gem install time_block
 
 ## Usage
