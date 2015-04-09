@@ -10,7 +10,7 @@ To notify the end of a time block.
 
 ## Usage
 
-time_block --help
+timeblock <time in sec>
 
 ## Contributing
 
