@@ -1,24 +1,14 @@
 # TimeBlock
 
-TODO: Write a gem description
+To notify the end of the time block.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'time_block'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install time_block
 
 ## Usage
 
-TODO: Write usage instructions here
+time_block --help
 
 ## Contributing
 
