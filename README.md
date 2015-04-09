@@ -1,6 +1,6 @@
 # TimeBlock
 
-To notify the end of the time block.
+To notify the end of a time block.
 
 ## Installation
 
