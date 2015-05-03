@@ -1,18 +1,15 @@
+require 'dante'
 require 'time_block'
+require 'time_block/agent'
 
 class TimeBlock::CLI
   def self.start(*args)
-    fail 'No terminal-notifier, please install it, brew install terminal-notifier' unless terminal_notifier_exist?
     time = args.shift.strip.to_i
-    sleep time
-    `terminal-notifier -message #{"Time is out dude !!!".dump} -title "TimeBlock - #{time}s" -sound "default"`
+    Dante::Runner.new('timeblock').execute(daemonize: true, pid_path: '/tmp/timeblock.pid', log_path: '/tmp/timblock.log') do |opts|
+      TimeBlock::Agent.new(time).run
+    end
   rescue => e
     puts e.message
     exit(1)
-  end
-
-  def self.terminal_notifier_exist?
-    `which terminal-notifier`
-    $? == 0
   end
 end
