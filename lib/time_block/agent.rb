@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
+require 'English'
+
 module TimeBlock
   class Agent
+
+    class MissingPackageError < StandardError; end
+
     def initialize(time)
-      raise 'No terminal-notifier, please install it, brew install terminal-notifier' unless terminal_notifier_exist?
+      raise MissingPackageError.new('No terminal-notifier, please install it, brew install terminal-notifier') unless terminal_notifier_exist?
       @time = time
     end
 
@@ -17,7 +22,7 @@ module TimeBlock
 
     def terminal_notifier_exist?
       `which terminal-notifier`
-      $CHILD_STATUS.zero?
+      $CHILD_STATUS.success?
     end
 
     def pre_callback

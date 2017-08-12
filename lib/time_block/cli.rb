@@ -11,9 +11,11 @@ module TimeBlock
       class UnsupportedCommand < StandardError; end
 
       def run
-        parse_args
+        parse_args!
         set_defaults
         execute
+      rescue UnsupportedCommand => e
+        puts e.message
       end
 
       private
@@ -28,6 +30,7 @@ module TimeBlock
       end
 
       def start
+        puts "Time #{@time}s ..."
         Dante::Runner
           .new('timeblock')
           .execute(daemonize: true, pid_path: pid_path, log_path: log_path) do |_opts|
@@ -54,7 +57,7 @@ module TimeBlock
         @verbose ||= false
       end
 
-      def parse_args
+      def parse_args!
         opts = GetoptLong.new(['--help', '-h', GetoptLong::NO_ARGUMENT],
                               ['--time', '-t', GetoptLong::REQUIRED_ARGUMENT],
                               ['--verbose', '-v', GetoptLong::NO_ARGUMENT])
@@ -67,6 +70,11 @@ module TimeBlock
             exit(0)
           when '--time'
             @time = arg.to_i
+            if arg.chars.last == 'm'
+              @time *= 60
+            elsif arg.chars.last == 'h'
+              @time *= 60 * 24
+            end
           when '--verbose'
             @verbose = true
           end
@@ -78,7 +86,7 @@ module TimeBlock
       end
 
       def supported_commands?(cmd)
-        cmd.nil? || %w[stop start restart].include?(cmd)
+        %w[stop start restart].include?(cmd)
       end
 
       def print_help
